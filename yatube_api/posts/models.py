@@ -89,9 +89,16 @@ class Comment(models.Model):
 
 class Follow(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='follower')
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower')
     following = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='following')
+        User,
+        on_delete=models.CASCADE,
+        related_name='following')
 
     class Meta:
         unique_together = ('user', 'following')
+
+    def __str__(self):
+        return f'{self.user} подписан на {self.following}'

@@ -4,14 +4,15 @@ from django.shortcuts import get_object_or_404
 from rest_framework import permissions, viewsets, mixins, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.filters import SearchFilter
-from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from rest_framework.pagination import (
+    PageNumberPagination, LimitOffsetPagination)
 from rest_framework.response import Response
 
 from api.permissions import IsAuthorOrReadOnly
 from api.serializers import (
     CommentSerializer, FollowSerializer,
     GroupSerializer, PostSerializer)
-from posts.models import Comment, Follow, Group, Post
+from posts.models import Follow, Group, Post
 
 
 class PostViewSet(viewsets.ModelViewSet):
