@@ -2,7 +2,13 @@
 
 ## Описание
 
-Данный проект представляет собой REST API для социальной сети Yatube, ориентированной на блогеров.  API построен на базе фреймворка Django.
+Данный проект представляет собой REST API версии v1 для социальной сети Yatube, ориентированной на блогеров. API построен на базе фреймворка Django REST framework и предоставляет возможности для создания, чтения, обновления и удаления контента платформы.
+
+## Технологии
+- Python 3.9+
+- Django REST framework
+- JWT аутентификация (Djoser)
+- SQLite3
 
 ## Ключевые возможности
 
@@ -17,31 +23,40 @@
 *   **Фильтрация:** Предусмотрена возможность фильтрации данных по различным полям.
 *   **Документация:** Подробная документация по API доступна по адресу `http://127.0.0.1:8000/redoc/` после запуска сервера.
 
+## Требования
+- Python 3.9+
+- pip
+
 ## Запуск проекта (режим разработки)
 
 1.  **Клонирование репозитория:**
     ```bash
     git clone <ссылка на репозиторий>
     ```
+
 2.  **Создание и активация виртуального окружения:**
     ```bash
     python3 -m venv venv
-    source venv/bin/activate #Для Linux/macOS
-    #или
-    venv\Scripts\activate  #Для Windows
+    source venv/bin/activate  # Для Linux/macOS
+    # или
+    venv\Scripts\activate     # Для Windows
     ```
+
 3.  **Установка зависимостей:**
     ```bash
     pip install -r requirements.txt
     ```
+
 4.  **Переход в директорию проекта:**
     ```bash
-    cd api_yatube/yatube_api
+    cd yatube_api
     ```
+
 5.  **Применение миграций:**
     ```bash
     python manage.py migrate
     ```
+
 6.  **Запуск сервера:**
     ```bash
     python manage.py runserver
@@ -49,33 +64,99 @@
 
 ## Примеры запросов API
 
-*   **Получение списка всех постов:**
-    ```
-    GET /api/v1/posts/
-    ```
-*   **Создание нового поста:**
-    ```
-    POST /api/v1/posts/
-    ```
-*   **Получение списка всех групп:**
-    ```
-    GET /api/v1/groups/
-    ```
-*   **Добавление комментария к посту:**
-    ```
-    POST /api/v1/posts/{post_id}/comments/
-    ```
-*   **Удаление комментария:**
-    ```
-    DELETE /api/v1/posts/{post_id}/comments/{id}/
-    ```
-*   **Получение списка подписок:**
-    ```
-    GET /api/v1/follow/
-    ```
-*   **Подписка на пользователя:**
-    ```
-    POST /api/v1/follow/
-    ```
+### Работа с JWT-токенами
 
-**Полный перечень эндпоинтов и их подробное описание доступны в документации.**
+1. **Получение JWT-токена:**
+```bash
+POST /api/v1/jwt/create/
+{
+    "username": "user",
+    "password": "password"
+}
+```
+Ответ:
+```json
+{
+    "refresh": "jwt-refresh-token",
+    "access": "jwt-access-token"
+}
+```
+
+### Работа с постами
+
+1. **Получение списка всех постов:**
+```bash
+GET /api/v1/posts/
+```
+Ответ:
+```json
+{
+    "count": 123,
+    "next": "http://api.example.org/api/v1/posts/?offset=400&limit=100",
+    "previous": "http://api.example.org/api/v1/posts/?offset=200&limit=100",
+    "results": [
+        {
+            "id": 0,
+            "author": "string",
+            "text": "string",
+            "pub_date": "2021-10-14T20:41:29.648Z",
+            "image": "string",
+            "group": 0
+        }
+    ]
+}
+```
+
+2. **Создание нового поста:**
+```bash
+POST /api/v1/posts/
+{
+    "text": "Текст поста",
+    "group": 1,
+    "image": "string"
+}
+```
+
+### Работа с комментариями
+
+1. **Получение комментариев поста:**
+```bash
+GET /api/v1/posts/{post_id}/comments/
+```
+
+2. **Добавление комментария:**
+```bash
+POST /api/v1/posts/{post_id}/comments/
+{
+    "text": "Текст комментария"
+}
+```
+
+### Работа с подписками
+
+1. **Получение списка подписок:**
+```bash
+GET /api/v1/follow/
+```
+
+2. **Подписка на автора:**
+```bash
+POST /api/v1/follow/
+{
+    "following": "username"
+}
+```
+
+### Работа с группами
+
+1. **Получение списка групп:**
+```bash
+GET /api/v1/groups/
+```
+
+2. **Информация о группе:**
+```bash
+GET /api/v1/groups/{id}/
+```
+
+**Полный перечень эндпоинтов и их подробное описание доступны в документации по адресу `http://127.0.0.1:8000/redoc/`.**
