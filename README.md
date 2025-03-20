@@ -116,12 +116,35 @@ POST /api/v1/posts/
     "image": "string"
 }
 ```
+Ответ:
+```json
+{
+    "id": 1,
+    "author": "string",
+    "text": "Текст поста",
+    "pub_date": "2021-10-14T20:41:29.648Z",
+    "image": "string",
+    "group": 1
+}
+```
 
 ### Работа с комментариями
 
 1. **Получение комментариев поста:**
 ```bash
 GET /api/v1/posts/{post_id}/comments/
+```
+Ответ:
+```json
+[
+    {
+        "id": 1,
+        "author": "string",
+        "text": "string",
+        "created": "2021-10-14T20:41:29.648Z",
+        "post": 1
+    }
+]
 ```
 
 2. **Добавление комментария:**
@@ -131,6 +154,16 @@ POST /api/v1/posts/{post_id}/comments/
     "text": "Текст комментария"
 }
 ```
+Ответ:
+```json
+{
+    "id": 1,
+    "author": "string",
+    "text": "Текст комментария",
+    "created": "2021-10-14T20:41:29.648Z",
+    "post": 1
+}
+```
 
 ### Работа с подписками
 
@@ -138,11 +171,27 @@ POST /api/v1/posts/{post_id}/comments/
 ```bash
 GET /api/v1/follow/
 ```
+Ответ:
+```json
+[
+    {
+        "user": "string",
+        "following": "string"
+    }
+]
+```
 
 2. **Подписка на автора:**
 ```bash
 POST /api/v1/follow/
 {
+    "following": "username"
+}
+```
+Ответ:
+```json
+{
+    "user": "string",
     "following": "username"
 }
 ```
@@ -153,10 +202,30 @@ POST /api/v1/follow/
 ```bash
 GET /api/v1/groups/
 ```
+Ответ:
+```json
+[
+    {
+        "id": 1,
+        "title": "string",
+        "slug": "string",
+        "description": "string"
+    }
+]
+```
 
 2. **Информация о группе:**
 ```bash
 GET /api/v1/groups/{id}/
+```
+Ответ:
+```json
+{
+    "id": 1,
+    "title": "string",
+    "slug": "string",
+    "description": "string"
+}
 ```
 
 **Полный перечень эндпоинтов и их подробное описание доступны в документации по адресу `http://127.0.0.1:8000/redoc/`.**
